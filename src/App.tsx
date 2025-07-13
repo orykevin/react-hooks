@@ -2,13 +2,33 @@ import { useState } from "react";
 
 import "./App.css";
 import { UseState } from "./components/UseState";
+import { UseEffect } from "./components/UseEffect";
+import { UseRef } from "./components/UseRef";
+import { UseMemo } from "./components/UseMemo";
+import { UseCallback } from "./components/UseCallback";
 
 const RenderMode = (mode: string) => {
   switch (mode) {
     case "use-state":
       return <UseState />;
+    case "use-effect":
+      return <UseEffect />;
+    case "use-ref":
+      return <UseRef />;
+    case "use-memo":
+      return <UseMemo />;
+    case "use-callback":
+      return <UseCallback />;
   }
 };
+
+const modes = [
+  { value: "use-state", label: "useState" },
+  { value: "use-effect", label: "useEffect" },
+  { value: "use-ref", label: "useRef" },
+  { value: "use-memo", label: "useMemo" },
+  { value: "use-callback", label: "useCallback" },
+];
 
 function App() {
   const [mode, setMode] = useState<string | null>(null);
@@ -22,7 +42,11 @@ function App() {
         defaultValue={""}
       >
         <option value="">Select Mode</option>
-        <option value="use-state">useState</option>
+        {modes.map((mode) => (
+          <option key={mode.value} value={mode.value}>
+            {mode.label}
+          </option>
+        ))}
       </select>
       {mode ? RenderMode(mode) : <h1>Select Mode</h1>}
     </>
