@@ -6,6 +6,7 @@ import { UseEffect } from "./components/UseEffect";
 import { UseRef } from "./components/UseRef";
 import { UseMemo } from "./components/UseMemo";
 import { UseCallback } from "./components/UseCallback";
+import { UseReducer } from "./components/UseReducer";
 
 const RenderMode = (mode: string) => {
   switch (mode) {
@@ -19,6 +20,8 @@ const RenderMode = (mode: string) => {
       return <UseMemo />;
     case "use-callback":
       return <UseCallback />;
+    case "use-reducer":
+      return <UseReducer />;
   }
 };
 
@@ -28,6 +31,7 @@ const modes = [
   { value: "use-ref", label: "useRef" },
   { value: "use-memo", label: "useMemo" },
   { value: "use-callback", label: "useCallback" },
+  { value: "use-reducer", label: "useReducer" },
 ];
 
 function App() {

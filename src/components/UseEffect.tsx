@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const UseEffect = () => {
   const [count, setCount] = useState(1);
   const [count2, setCount2] = useState(1);
-  const reRenderCount = useRef(0);
 
   useEffect(() => {
     console.log(count);
