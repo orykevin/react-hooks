@@ -1,74 +1,40 @@
-import { useReducer, useRef } from "react";
-
-type State = {
-  count: number;
-  count2: number;
-};
-
-type ActionArgs =
-  | {
-      type:
-        | "tambah-pertama"
-        | "kurang-pertama"
-        | "tambah-kedua"
-        | "kurang-kedua";
-    }
-  | {
-      type: "tambah-bebas";
-      nomor: 1 | 2;
-      total: number;
-    };
-
-const reducerFunction = (state: State, action: ActionArgs) => {
-  switch (action.type) {
-    case "tambah-pertama":
-      return { ...state, count: state.count + 1 };
-    case "kurang-pertama":
-      return { ...state, count: state.count - 1 };
-    case "tambah-kedua":
-      return { ...state, count2: state.count2 + 1 };
-    case "kurang-kedua":
-      return { ...state, count2: state.count2 - 1 };
-    case "tambah-bebas":
-      if (action.nomor === 1) {
-        return { ...state, count: state.count + action.total };
-      } else {
-        return { ...state, count2: state.count2 + action.total };
-      }
-    default:
-      return state;
-  }
-};
-
-const initialValue = { count: 0, count2: 0 };
+import { useRef, useState } from "react";
 
 export const UseReducer = () => {
-  const [state, dispatch] = useReducer(reducerFunction, initialValue);
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(0);
 
   return (
     <div>
       <h1>useReducer</h1>
-      <ManualCount dispatch={dispatch} />
-      <CountComponent state={state} dispatch={dispatch} />
+      <ManualCount setCount={setCount} setCount2={setCount2} />
+      <CountComponent
+        count={count}
+        count2={count2}
+        setCount={setCount}
+        setCount2={setCount2}
+      />
     </div>
   );
 };
 
 const ManualCount = ({
-  dispatch,
+  setCount,
+  setCount2,
 }: {
-  dispatch: React.Dispatch<ActionArgs>;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  setCount2: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const nomorRef = useRef<null | HTMLSelectElement>(null);
   const totalRef = useRef<null | HTMLInputElement>(null);
 
   const tambahBebas = () => {
     if (nomorRef.current && totalRef.current) {
-      dispatch({
-        type: "tambah-bebas",
-        nomor: Number(nomorRef.current.value) as 1 | 2,
-        total: Number(totalRef.current.value),
-      });
+      if (nomorRef.current.value === "1") {
+        setCount((prev) => prev + Number(totalRef?.current?.value));
+      } else {
+        setCount2((prev) => prev + Number(totalRef?.current?.value));
+      }
     }
   };
 
@@ -87,29 +53,33 @@ const ManualCount = ({
 };
 
 const CountComponent = ({
-  state,
-  dispatch,
+  count,
+  count2,
+  setCount,
+  setCount2,
 }: {
-  state: State;
-  dispatch: React.Dispatch<ActionArgs>;
+  count: number;
+  count2: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  setCount2: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
     <>
       <div>
-        <h1>Count1 : {state.count}</h1>
-        <button onClick={() => dispatch({ type: "tambah-pertama" })}>
+        <h1>Count1 : {count}</h1>
+        <button onClick={() => setCount((prev) => prev + 1)}>
           Tambah Pertama
         </button>
-        <button onClick={() => dispatch({ type: "kurang-pertama" })}>
+        <button onClick={() => setCount((prev) => prev - 1)}>
           Kurang Pertama
         </button>
       </div>
       <div>
-        <h1>Count2 : {state.count2}</h1>
-        <button onClick={() => dispatch({ type: "tambah-kedua" })}>
+        <h1>Count2 : {count2}</h1>
+        <button onClick={() => setCount2((prev) => prev + 1)}>
           Tambah Kedua
         </button>
-        <button onClick={() => dispatch({ type: "kurang-kedua" })}>
+        <button onClick={() => setCount2((prev) => prev - 1)}>
           Kurang Kedua
         </button>
       </div>
