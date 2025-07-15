@@ -1,20 +1,10 @@
-import { createContext, useContext, useState } from "react";
-
-type CountContext = {
-  count: number;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-};
-
-export const CountContext = createContext<CountContext>({
-  count: 0,
-  setCount: () => {},
-});
+import { useState } from "react";
 
 const UseContext = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <CountContext.Provider value={{ count, setCount }}>
+    <div>
       <div>
         <h1>useContext</h1>
         <div>
@@ -24,31 +14,48 @@ const UseContext = () => {
           </button>
         </div>
       </div>
-      <ComponentParent />
-    </CountContext.Provider>
+      <ComponentParent count={count} setCount={setCount} />
+    </div>
   );
 };
 
-const ComponentParent = () => {
+const ComponentParent = ({
+  count,
+  setCount,
+}: {
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   return (
     <div className="card">
       <p>Parent</p>
-      <ComponentChildren />
+      <ComponentChildren count={count} setCount={setCount} />
     </div>
   );
 };
 
-const ComponentChildren = () => {
+const ComponentChildren = ({
+  count,
+  setCount,
+}: {
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   return (
     <div className="card">
       <p>Children</p>
-      <ComponentGrandChildren />
+      <ComponentGrandChildren count={count} setCount={setCount} />
     </div>
   );
 };
 
-const ComponentGrandChildren = () => {
-  const { count, setCount } = useContext(CountContext);
+const ComponentGrandChildren = ({
+  count,
+  setCount,
+}: {
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   return (
     <div className="card">
       <p>Grand Children</p>
