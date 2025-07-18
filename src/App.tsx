@@ -8,6 +8,7 @@ import { UseMemo } from "./components/UseMemo";
 import { UseCallback } from "./components/UseCallback";
 import { UseReducer } from "./components/UseReducer";
 import UseContext from "./components/UseContext";
+import { UseLayoutEffect } from "./components/UseLayoutEffect";
 
 const RenderMode = (mode: string) => {
   switch (mode) {
@@ -25,6 +26,8 @@ const RenderMode = (mode: string) => {
       return <UseReducer />;
     case "use-context":
       return <UseContext />;
+    case "use-layout-effect":
+      return <UseLayoutEffect />;
   }
 };
 
@@ -36,6 +39,7 @@ const modes = [
   { value: "use-callback", label: "useCallback" },
   { value: "use-reducer", label: "useReducer" },
   { value: "use-context", label: "useContext" },
+  { value: "use-layout-effect", label: "useLayoutEffect" },
 ];
 
 function App() {
